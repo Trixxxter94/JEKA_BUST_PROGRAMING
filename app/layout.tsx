@@ -1,4 +1,4 @@
-import HrefPage from "@/src/href-page.ui";
+import { NavigationMenu } from "@/src/NavigationMenu";
 
 export default async function RootLayout({
 	children,
@@ -6,7 +6,7 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			<body>{children}</body>
-			<HrefPage />
+			<NavigationMenu />
 		</html>
 	);
 }
