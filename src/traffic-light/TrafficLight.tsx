@@ -1,33 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./TrafficLight.module.css";
 
 export const TrafficLight = () => {
 	const [counter, setCounter] = useState(1);
-	const [isBusy, setIsBusy] = useState(false);
+	const isBusyRef = useRef(false);
+	const changeColorRef = useRef(true);
 	function changeTrafficLight() {
-		if (isBusy) return;
-		setIsBusy(true);
-		setCounter((prev) => prev + 1);
-		setTimeout(() => {
+		if (isBusyRef.current) return;
+		isBusyRef.current = true;
+		if (changeColorRef.current === true) {
 			setCounter((prev) => prev + 1);
-		}, 3000);
-		setTimeout(() => {
-			const intervalId = setInterval(() => {
-				setCounter((prev) => {
-					if (prev === 3) return prev - 3;
-					if (prev === 0) return prev + 3;
-					return prev;
-				});
-			}, 1000);
+			changeColorRef.current = false;
 			setTimeout(() => {
-				clearInterval(intervalId);
-				setCounter((prev) => prev + 2);
-				setTimeout(() => setCounter((prev) => prev - 1), 3000);
-				setTimeout(() => setIsBusy(false), 2000);
+				setCounter((prev) => prev + 1);
+				isBusyRef.current = false;
+			}, 3000);
+			return;
+		}
+		if (changeColorRef.current === false) {
+			changeColorRef.current = true;
+			setTimeout(() => {
+				const intervalId = setInterval(() => {
+					setCounter((prev) => {
+						if (prev === 3) return prev - 3;
+						if (prev === 0) return prev + 3;
+						return prev;
+					});
+				}, 1000);
+				setTimeout(() => {
+					clearInterval(intervalId);
+					setCounter((prev) => prev + 2);
+					setTimeout(() => setCounter((prev) => prev - 1), 3000);
+					setTimeout(() => (isBusyRef.current = false), 2000);
+				}, 5000);
 			}, 5000);
-		}, 5000);
+		}
 	}
 	return (
 		<div className={styles.trafficLight}>
@@ -40,11 +49,9 @@ export const TrafficLight = () => {
 			<div className={counter === 3 ? styles.circleGreen : styles.blackCircle}>
 				Light 3
 			</div>
-			<div>
-				<button type="button" onClick={() => changeTrafficLight()}>
-					Switch Color
-				</button>
-			</div>
+			<button type="button" onClick={changeTrafficLight}>
+				Switch Color
+			</button>
 		</div>
 	);
 };
