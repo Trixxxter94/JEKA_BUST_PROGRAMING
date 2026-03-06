@@ -21,20 +21,19 @@ export const TrafficLight = () => {
 		}
 		if (changeColorRef.current === false) {
 			changeColorRef.current = true;
+
+			const intervalId = setInterval(() => {
+				setCounter((prev) => {
+					if (prev === 3) return prev - 3;
+					if (prev === 0) return prev + 3;
+					return prev;
+				});
+			}, 1000);
 			setTimeout(() => {
-				const intervalId = setInterval(() => {
-					setCounter((prev) => {
-						if (prev === 3) return prev - 3;
-						if (prev === 0) return prev + 3;
-						return prev;
-					});
-				}, 1000);
-				setTimeout(() => {
-					clearInterval(intervalId);
-					setCounter((prev) => prev + 2);
-					setTimeout(() => setCounter((prev) => prev - 1), 3000);
-					setTimeout(() => (isBusyRef.current = false), 2000);
-				}, 5000);
+				clearInterval(intervalId);
+				setCounter((prev) => prev + 2);
+				setTimeout(() => setCounter((prev) => prev - 1), 3000);
+				setTimeout(() => (isBusyRef.current = false), 2000);
 			}, 5000);
 		}
 	}
