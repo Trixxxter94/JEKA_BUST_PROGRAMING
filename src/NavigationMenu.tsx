@@ -4,7 +4,7 @@ export function NavigationMenu() {
 	return (
 		<div>
 			<Link href={"/"}>Home</Link>
-			<Link href={"/"}>About</Link>
+			<Link href={"/traffic-light"}>Traffic Light</Link>
 		</div>
 	);
 }
