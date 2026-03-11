@@ -1,0 +1,27 @@
+.HeaderContainerStyle {
+	width: 100%;
+	height: 100px;
+	background-color: black;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-left: 100px;
+	padding-right: 100px;
+	box-sizing: border-box;
+}
+.linkContainerStyle {
+	display: flex;
+	gap: 20px;
+}
+.logoStyle {
+	color: white;
+	font-family: "Courier New", Courier, monospace;
+}
+.linkStyle {
+	color: white;
+	font-family: "Courier New", Courier, monospace;
+	text-decoration: none;
+}
+.linkStyle:hover {
+	font-size: large;
+}

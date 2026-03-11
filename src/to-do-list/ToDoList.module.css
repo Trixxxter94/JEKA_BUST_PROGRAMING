@@ -1,0 +1,75 @@
+.toDoList {
+	background-color: white;
+	width: 100%;
+	height: 100%;
+	justify-items: center;
+}
+.toDoListWrap {
+	background-color: white;
+	width: 50%;
+	height: 100%;
+	padding: 12;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+}
+.buttonAndInputContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	gap: 12px;
+}
+.inputAndErrorsContainer {
+	width: 100%;
+	margin-left: 100px;
+	position: relative;
+}
+.inputStyle {
+	width: 80%;
+	height: 40px;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
+	font-size: larger;
+}
+.errorsStyle {
+	padding: 0;
+	margin: 0;
+	color: red;
+	position: absolute;
+	font-size: larger;
+}
+.addButtonStyle {
+	width: 5%;
+	height: 45px;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
+	background-color: #337ab7;
+	color: white;
+}
+
+.tasksContainer {
+	width: 100%;
+	margin-top: 5px;
+}
+.ulStyle {
+	padding: 0;
+}
+.liStyle {
+	width: 100%;
+	display: flex;
+	gap: 50px;
+	border: 1px solid #dcdcdc;
+	border-radius: 3px;
+	padding: 2 15 2 10;
+	font-size: larger;
+}
+.deleteButtonStyle {
+	margin-left: auto;
+	background-color: white;
+	border: none;
+}
+.ToDoListH1 {
+	font-family: "Courier New", Courier, monospace;
+}
