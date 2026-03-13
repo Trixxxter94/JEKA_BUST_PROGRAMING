@@ -33,6 +33,9 @@
 	border-radius: 5px;
 	font-size: larger;
 }
+.checkBoxStyle {
+	cursor: pointer;
+}
 .errorsStyle {
 	padding: 0;
 	margin: 0;
@@ -47,6 +50,7 @@
 	border-radius: 5px;
 	background-color: #337ab7;
 	color: white;
+	cursor: pointer;
 }
 
 .tasksContainer {
@@ -69,6 +73,7 @@
 	margin-left: auto;
 	background-color: white;
 	border: none;
+	cursor: pointer;
 }
 .ToDoListH1 {
 	font-family: "Courier New", Courier, monospace;

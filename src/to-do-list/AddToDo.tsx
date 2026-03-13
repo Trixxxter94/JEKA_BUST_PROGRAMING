@@ -57,6 +57,8 @@ export const AddToDo = () => {
 									tasks.task.toLowerCase() === inputValue.toLowerCase(),
 							)
 						) {
+							setIsEmpty(false);
+							setIsLessThanThreeChars(false);
 							setIsTitleExist(true);
 							return;
 						}
@@ -79,6 +81,7 @@ export const AddToDo = () => {
 					{itemsToRender.map((tasks) => (
 						<li className={styles.liStyle} key={tasks.task}>
 							<input
+								className={styles.checkBoxStyle}
 								type="checkbox"
 								checked={tasks.completed}
 								onChange={() =>
@@ -96,7 +99,16 @@ export const AddToDo = () => {
 								}
 							/>
 							{tasks.completed ? (
-								<p style={{ textDecoration: "line-through" }}>{tasks.task}</p>
+								<p
+									style={{
+										textDecoration: "line-through",
+										display: "flex",
+										alignItems: "center",
+										gap: "25px",
+									}}
+								>
+									{tasks.task}
+								</p>
 							) : (
 								<p>{tasks.task}</p>
 							)}
@@ -106,7 +118,9 @@ export const AddToDo = () => {
 								type="button"
 								onClick={() =>
 									setItemsToRender(
-										itemsToRender.filter((b) => b.task !== tasks.task),
+										itemsToRender.filter(
+											(doneTasks) => doneTasks.task !== tasks.task,
+										),
 									)
 								}
 							>
