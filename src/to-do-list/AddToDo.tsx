@@ -1,134 +1,72 @@
 "use client";
-import { Trash2 } from "lucide-react";
 import { useState } from "react";
+import { ToDoButton } from "./ToDoButton";
+import { ToDoInput } from "./ToDoInput";
 import styles from "./ToDoList.module.css";
+import type { TodoData } from "./ToDoList.type";
 
-export const AddToDo = () => {
-	const [inputValue, setInputValue] = useState("");
-	const [itemsToRender, setItemsToRender] = useState<
-		{ task: string; completed: boolean }[]
-	>([]);
-	const [isEmpty, setIsEmpty] = useState(false);
-	const [isLessThanThreeChars, setIsLessThanThreeChars] = useState(false);
-	const [isTitleExist, setIsTitleExist] = useState(false);
+type AddToDoProps = {
+	ToDoItems: Record<string, TodoData>;
+	onAddTodo: (newTodo: TodoData) => void;
+};
+
+export const AddToDo = ({ ToDoItems, onAddTodo }: AddToDoProps) => {
+	const [taskTitle, setTaskTitle] = useState("");
+	const [taskTitleError, setTaskTitleError] = useState("");
+	const handleAddTodo = () => {
+		if (taskTitle === "") {
+			setTaskTitleError("Please enter task title!");
+			return;
+		}
+		if (taskTitle.length < 4) {
+			setTaskTitleError("The task title is to short!");
+			return;
+		}
+		if (
+			Object.values(ToDoItems).some(
+				(tasks) => tasks.task.toLowerCase() === taskTitle.toLowerCase(),
+			)
+		) {
+			setTaskTitleError("The task with the same title already exists!");
+			return;
+		}
+		onAddTodo({
+			id: crypto.randomUUID(),
+			task: taskTitle,
+			completed: false,
+			currentData: new Date().toLocaleDateString("en-CA"),
+		});
+		setTaskTitleError("");
+		setTaskTitle("");
+	};
 
 	return (
 		<div className={styles.toDoListWrap}>
-			<h1 className={styles.ToDoListH1}>ToDO List</h1>
+			<h1 className={styles.ToDoListH1}>ToDo List</h1>
 			<div className={styles.buttonAndInputContainer}>
 				<div className={styles.inputAndErrorsContainer}>
-					<input
+					<ToDoInput
 						className={styles.inputStyle}
 						type="text"
 						placeholder="New Task"
-						value={inputValue}
-						onChange={(e) => setInputValue(e.target.value)}
+						inputValue={taskTitle}
+						onChange={(event) => setTaskTitle(event.target.value)}
+						onKeyDown={(event) => {
+							if (event.key === "Enter") {
+								handleAddTodo();
+							}
+						}}
 					/>
-					{isEmpty && (
-						<p className={styles.errorsStyle}>Please enter task title!</p>
-					)}
-					{isLessThanThreeChars && (
-						<p className={styles.errorsStyle}>The task title is to short!</p>
-					)}
-					{isTitleExist && (
-						<p className={styles.errorsStyle}>
-							The task with the same title already exists!
-						</p>
-					)}
-				</div>
 
-				<button
+					<p className={styles.errorsStyle}>{taskTitleError}</p>
+				</div>
+				<ToDoButton
 					className={styles.addButtonStyle}
 					type="button"
-					onClick={() => {
-						if (inputValue === "") {
-							setIsLessThanThreeChars(false);
-							setIsEmpty(true);
-							return;
-						}
-						if (inputValue.length < 4) {
-							setIsEmpty(false);
-							setIsLessThanThreeChars(true);
-							return;
-						}
-						if (
-							itemsToRender.some(
-								(tasks) =>
-									tasks.task.toLowerCase() === inputValue.toLowerCase(),
-							)
-						) {
-							setIsEmpty(false);
-							setIsLessThanThreeChars(false);
-							setIsTitleExist(true);
-							return;
-						}
-						setIsLessThanThreeChars(false);
-						setIsEmpty(false);
-						setIsTitleExist(false);
-						setItemsToRender([
-							...itemsToRender,
-							{ task: inputValue, completed: false },
-						]);
-						setInputValue("");
-					}}
+					onClick={() => handleAddTodo()}
 				>
 					Add
-				</button>
-			</div>
-
-			<div className={styles.tasksContainer}>
-				<ul className={styles.ulStyle}>
-					{itemsToRender.map((tasks) => (
-						<li className={styles.liStyle} key={tasks.task}>
-							<input
-								className={styles.checkBoxStyle}
-								type="checkbox"
-								checked={tasks.completed}
-								onChange={() =>
-									setItemsToRender(
-										itemsToRender.map((doneTasks) => {
-											if (tasks.task === doneTasks.task) {
-												if (doneTasks.completed) {
-													return { task: doneTasks.task, completed: false };
-												}
-												return { task: doneTasks.task, completed: true };
-											}
-											return doneTasks;
-										}),
-									)
-								}
-							/>
-							{tasks.completed ? (
-								<p
-									style={{
-										textDecoration: "line-through",
-										display: "flex",
-										alignItems: "center",
-										gap: "25px",
-									}}
-								>
-									{tasks.task}
-								</p>
-							) : (
-								<p>{tasks.task}</p>
-							)}
-
-							<button
-								className={styles.deleteButtonStyle}
-								type="button"
-								onClick={() =>
-									setItemsToRender(
-										itemsToRender.filter(
-											(doneTasks) => doneTasks.task !== tasks.task,
-										),
-									)
-								}
-							>
-								<Trash2 color="red" size={25} />
-							</button>
-						</li>
-					))}
-				</ul>
+				</ToDoButton>
 			</div>
 		</div>
 	);

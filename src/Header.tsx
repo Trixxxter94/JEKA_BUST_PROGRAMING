@@ -1,43 +1,37 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 import styles from "./Header.module.css";
 
 export function Header() {
-	const [logo, setLogo] = useState(0);
+	const pathname = usePathname();
+	let logo = "";
+	if (pathname === "/") {
+		logo = "Home";
+	} else if (pathname === "/traffic-light") {
+		logo = "Traffic Light";
+	} else if (pathname === "/to-do-list") {
+		logo = "ToDo List";
+	}
 	return (
 		<div className={styles.HeaderContainerStyle}>
 			<div>
-				{logo === 0 && <h1 className={styles.logoStyle}>Home</h1>}
-				{logo === 1 && <h1 className={styles.logoStyle}>Traffic Light</h1>}
-				{logo === 2 && <h1 className={styles.logoStyle}>TODO List</h1>}
+				<h1 className={styles.logoStyle}>{logo}</h1>
 			</div>
 			<div className={styles.linkContainerStyle}>
 				<div>
-					<Link
-						onClick={() => setLogo(0)}
-						className={styles.linkStyle}
-						href={"/"}
-					>
+					<Link className={styles.linkStyle} href={"/"}>
 						Home
 					</Link>
 				</div>
 				<div>
-					<Link
-						onClick={() => setLogo(1)}
-						className={styles.linkStyle}
-						href={"/traffic-light"}
-					>
+					<Link className={styles.linkStyle} href={"/traffic-light"}>
 						Traffic Light
 					</Link>
 				</div>
 				<div>
-					<Link
-						onClick={() => setLogo(2)}
-						className={styles.linkStyle}
-						href={"/to-do-list"}
-					>
-						TODO List
+					<Link className={styles.linkStyle} href={"/to-do-list"}>
+						ToDo List
 					</Link>
 				</div>
 			</div>
