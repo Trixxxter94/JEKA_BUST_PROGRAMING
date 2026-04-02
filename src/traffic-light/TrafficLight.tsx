@@ -21,7 +21,6 @@ export const TrafficLight = () => {
 		}
 		if (changeColorRef.current === false) {
 			changeColorRef.current = true;
-
 			const intervalId = setInterval(() => {
 				setCounter((prev) => {
 					if (prev === 3) return prev - 3;
